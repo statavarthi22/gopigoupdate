@@ -9,32 +9,40 @@ import time
 
 import urllib.request, json
 
-#Check for updates:
-url="https://up.sentinelcloud.com/api?key=a54945822d049bd2b1c4cb798b13ae81&productCode=b0a440b5-9230-4365-998a-2eee6dbc303b&productVersion=1.1&format=json&id=dex123&os=Linux&arch=x86&lang=en";
+url="https://up.sentinelcloud.com/api?key=a54945822d049bd2b1c4cb798b13ae81&productCode=b0a440b5-9230-4365-998a-2eee6dbc303b&productVersion=1.0&format=json&id=dex123&os=Linux&arch=x86&lang=en";
 
 response = urllib.request.urlopen(url)
 
 data = json.loads(response.read().decode('utf8'))
 
-print(len(data['updates']))
+def getPayLoad(data):
+    #Check for updates:
 
-if len(data['updates']) > 0:
+    print(len(data['updates']))
+
+    if len(data['updates']) > 0:
+
+        updateURL = data['updates']['update'][0]['file']
+
+        updateAction = urllib.request.urlopen(updateURL)
+
+        updateCode=updateAction.read().decode('utf8')
+        
+        return updateCode
+    
+    if len(data['updates']) == 0:
+        return "NONE"
+    
+def applyPayLoad(data):
+    ## Open a file
+    fo = open("update.py", "w")
+    fo.write(getPayLoad(data))
+    ## Close opened file
+    fo.close()
+    
+applyPayLoad(data)
 
 
-    updateURL = data['updates']['update'][0]['file']
-
-    updateAction = urllib.request.urlopen(updateURL)
-
-    updateCode=updateAction.read().decode('utf8')
-
-
-## Open a file
-#fo = open("update.py", "w")
-#print ("Name of the file: ", fo.name)
-#fo.write(updateCode)
-#
-## Close opened file
-#fo.close()
 #
 #import update
 
@@ -185,3 +193,4 @@ btnUpdate.grid(column=2, row=6)
 
  
 window.mainloop()
+
