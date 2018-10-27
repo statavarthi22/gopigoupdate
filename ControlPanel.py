@@ -12,7 +12,7 @@ import urllib.request, json
 import platform
 
 ##Sentinel Up Configurations
-ver = "1.0"
+ver = "1.1"
 
 pCode = "b0a440b5-9230-4365-998a-2eee6dbc303b"
 
@@ -53,7 +53,7 @@ def getPayLoad(data):
     
 def applyPayLoad():
     ## Open a file
-    fo = open("update.py", "w")
+    fo = open("ControlPanel.py", "w")
     fo.write(getPayLoad(data))
     ## Close opened file
     fo.close()
